@@ -26,6 +26,7 @@ The goal of this project is to reimplement the legacy `flarectl` command-line to
 ## Gotchas
 - `ref/` directory contains legacy code without `go.mod`. This can cause `go vet` and `go mod tidy` to process it if run from the root.
   - **Workaround**: Run `cd ref && go mod init ref` to isolate it, or exclude it from tool runs. `ref/` is gitignored.
+- **Legacy `dns create-or-update` behavior**: The legacy tool searches for records by FQDN. If *any* records exist (e.g. `MX` records), it enters an update loop. If the requested type (e.g. `A`) is not found in that loop, it does *nothing* (neither updates nor creates). This behavior was replicated to satisfy "Zero Regression", but it may be unintuitive (preventing creation of new types on existing names).
 
 ## Learnings (New)
 - **Library Version**: `cloudflare-go` v6 is generated via Stainless and behaves differently from v4 (legacy).
@@ -33,7 +34,11 @@ The goal of this project is to reimplement the legacy `flarectl` command-line to
   - Use `cloudflare.F()` helper to wrap parameters.
   - `List` returns a struct with a `Result` slice, but the iterator (`ListAutoPaging`) is preferred for complete lists.
 - **Tablewriter**: `tablewriter` v1.1.3 has a breaking API change. We pinned v0.0.5 to match legacy behavior and simplify porting.
+- **DNS Records**:
+  - `dns list` and `dns create` use different output table columns/order in legacy. Replicated this inconsistency.
+  - `dns update` uses `PATCH` (Edit) semantics in v6. Implemented using `c.Flags().Changed()` to only send updated fields.
 - **Metrics**:
   - `cmd/zone.go` implemented (~160 LOC).
-  - `cmd/utils.go` added (~50 LOC).
+  - `cmd/dns.go` implemented (~320 LOC).
+  - `cmd/utils.go` added (~70 LOC).
   - Complexity is low (straight mapping).

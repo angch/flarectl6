@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"fmt"
 	"strings"
 
 	"github.com/cloudflare/cloudflare-go/v6"
@@ -172,19 +171,3 @@ func zoneDelete(c *cobra.Command) error {
 	return err
 }
 
-func getZoneIDByName(c *cobra.Command, zoneName string) (string, error) {
-	params := zones.ZoneListParams{
-		Name: cloudflare.F(zoneName),
-	}
-	// List first page only is enough to check existence
-	res, err := client.Zones.List(c.Context(), params)
-	if err != nil {
-		return "", err
-	}
-
-	if len(res.Result) == 0 {
-		return "", fmt.Errorf("zone %q not found", zoneName)
-	}
-
-	return res.Result[0].ID, nil
-}

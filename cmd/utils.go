@@ -6,7 +6,9 @@ import (
 
 	"github.com/cloudflare/cloudflare-go/v6"
 	"github.com/cloudflare/cloudflare-go/v6/option"
+	"github.com/cloudflare/cloudflare-go/v6/zones"
 	"github.com/olekukonko/tablewriter"
+	"github.com/spf13/cobra"
 )
 
 var client *cloudflare.Client
@@ -50,4 +52,34 @@ func ensureClient() error {
 // formatBool converts boolean to string "true"/"false"
 func formatBool(b bool) string {
 	return fmt.Sprintf("%t", b)
+}
+
+func getZoneIDByName(c *cobra.Command, zoneName string) (string, error) {
+	params := zones.ZoneListParams{
+		Name: cloudflare.F(zoneName),
+	}
+	// List first page only is enough to check existence
+	res, err := client.Zones.List(c.Context(), params)
+	if err != nil {
+		return "", err
+	}
+
+	if len(res.Result) == 0 {
+		return "", fmt.Errorf("zone %q not found", zoneName)
+	}
+
+	return res.Result[0].ID, nil
+}
+
+func checkFlags(c *cobra.Command, flags ...string) error {
+	for _, flag := range flags {
+		val, err := c.Flags().GetString(flag)
+		if err != nil {
+			return err
+		}
+		if val == "" {
+			return fmt.Errorf("error: the required flag %q was empty or not provided", flag)
+		}
+	}
+	return nil
 }
