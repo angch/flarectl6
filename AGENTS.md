@@ -26,3 +26,14 @@ The goal of this project is to reimplement the legacy `flarectl` command-line to
 ## Gotchas
 - `ref/` directory contains legacy code without `go.mod`. This can cause `go vet` and `go mod tidy` to process it if run from the root.
   - **Workaround**: Run `cd ref && go mod init ref` to isolate it, or exclude it from tool runs. `ref/` is gitignored.
+
+## Learnings (New)
+- **Library Version**: `cloudflare-go` v6 is generated via Stainless and behaves differently from v4 (legacy).
+  - Use `client.Zones.ListAutoPaging` for iterating over all results.
+  - Use `cloudflare.F()` helper to wrap parameters.
+  - `List` returns a struct with a `Result` slice, but the iterator (`ListAutoPaging`) is preferred for complete lists.
+- **Tablewriter**: `tablewriter` v1.1.3 has a breaking API change. We pinned v0.0.5 to match legacy behavior and simplify porting.
+- **Metrics**:
+  - `cmd/zone.go` implemented (~160 LOC).
+  - `cmd/utils.go` added (~50 LOC).
+  - Complexity is low (straight mapping).
