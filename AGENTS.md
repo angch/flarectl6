@@ -40,8 +40,12 @@ The goal of this project is to reimplement the legacy `flarectl` command-line to
 - **User Command**:
   - `user info`: v6 `UserGetResponse` structure differs significantly from legacy. Fields `Email` and `Username` are missing in v6 struct. Output columns are preserved but values are empty.
   - `user update`: Legacy command is a no-op (returns `nil`). Replicated this behavior.
+- **User-Agent Command**:
+  - `user-agents list`: Implemented `page` flag. Legacy behavior defaults to page 1 if not specified, so we preserved this (using `List` instead of `ListAutoPaging` when page is involved).
+  - `user-agents update`: `Target` must be set to "ua". The v6 library's `UARuleUpdateParamsConfigurationTarget` constants do not include "ua", but the API requires it (and legacy used it). We cast the string "ua" to the target type.
 - **Metrics**:
   - `cmd/zone.go` implemented (~160 LOC).
   - `cmd/dns.go` implemented (~320 LOC).
   - `cmd/utils.go` added (~70 LOC).
+  - `cmd/user_agent.go` implemented (~180 LOC).
   - Complexity is low (straight mapping).
