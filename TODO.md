@@ -12,7 +12,10 @@
 - [x] Implement `user` commands.
 - [x] Implement `user-agents` commands.
 - [x] Implement `firewall` access-rules commands.
-- [ ] ... (add more as we discover them in `ref/flarectl`).
+- [x] Implement `ips` command.
+- [x] Implement `pagerules` command.
+- [x] Implement `origin-ca-root-cert` command.
+- [x] Implement `railgun` command (placeholder).
 
 ## Documentation
 - [ ] Keep `doc/flarectl-doc.md` updated with analysis.

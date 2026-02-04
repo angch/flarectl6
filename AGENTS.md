@@ -45,10 +45,22 @@ The goal of this project is to reimplement the legacy `flarectl` command-line to
   - `user-agents update`: `Target` must be set to "ua". The v6 library's `UARuleUpdateParamsConfigurationTarget` constants do not include "ua", but the API requires it (and legacy used it). We cast the string "ua" to the target type.
 - **Firewall Command**:
   - `firewall access-rules`: v6 `AccessRuleService` does not support User-level scope (no `ListUserAccessRules` or equivalent in generated SDK). Commands without `--zone` or `--account` will return an error, whereas legacy would default to user scope.
+- **IPs Command**:
+  - `ips`: Replicated a legacy quirk where the `--ip-only` flag *enables* the header output ("IPv4 ranges:"), contrary to the flag name.
+- **PageRules Command**:
+  - `pagerules`: `PageRuleAction.Value` is a union interface in v6. Replicated legacy formatting logic by inspecting `ID` and type switching.
+  - Implemented a custom `title` helper to replace deprecated `strings.Title` without adding new dependencies.
+- **Origin CA Root Cert Command**:
+  - `origin-ca-root-cert`: v6 library lacks a helper for this. Implemented via manual `client.Get` to `/cert_req`.
+- **Railgun Command**:
+  - `railgun`: Implemented as a no-op placeholder, matching legacy behavior.
 - **Metrics**:
   - `cmd/zone.go` implemented (~160 LOC).
   - `cmd/dns.go` implemented (~320 LOC).
   - `cmd/utils.go` added (~70 LOC).
   - `cmd/user_agent.go` implemented (~180 LOC).
   - `cmd/firewall.go` implemented (~380 LOC).
-  - Complexity is low (straight mapping).
+  - `cmd/ips.go` implemented (~70 LOC).
+  - `cmd/pagerules.go` implemented (~140 LOC).
+  - `cmd/origin_ca_root_cert.go` implemented (~60 LOC).
+  - Complexity remains low.
