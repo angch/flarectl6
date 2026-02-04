@@ -1,12 +1,12 @@
 # TODO
 
 ## Setup & Analysis
-- [ ] Ensure `ref/` is populated (run `make fetch-ref`).
-- [ ] Analyze `ref/flarectl` structure (main entry point, command registration).
+- [x] Ensure `ref/` is populated (run `make fetch-ref`).
+- [x] Analyze `ref/flarectl` structure (main entry point, command registration).
 - [ ] Create a strategy for handling configuration (API keys, output formats).
 
 ## Implementation
-- [ ] Implement `version` command.
+- [x] Implement `version` command.
 - [ ] Implement `zone` commands (list, create, details).
 - [ ] Implement `dns` record commands.
 - [ ] Implement `user` commands.
