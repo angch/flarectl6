@@ -37,6 +37,9 @@ The goal of this project is to reimplement the legacy `flarectl` command-line to
 - **DNS Records**:
   - `dns list` and `dns create` use different output table columns/order in legacy. Replicated this inconsistency.
   - `dns update` uses `PATCH` (Edit) semantics in v6. Implemented using `c.Flags().Changed()` to only send updated fields.
+- **User Command**:
+  - `user info`: v6 `UserGetResponse` structure differs significantly from legacy. Fields `Email` and `Username` are missing in v6 struct. Output columns are preserved but values are empty.
+  - `user update`: Legacy command is a no-op (returns `nil`). Replicated this behavior.
 - **Metrics**:
   - `cmd/zone.go` implemented (~160 LOC).
   - `cmd/dns.go` implemented (~320 LOC).
