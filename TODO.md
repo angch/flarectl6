@@ -8,7 +8,7 @@
 ## Implementation
 - [x] Implement `version` command.
 - [x] Implement `zone` commands (list, create, details, delete).
-- [ ] Implement `dns` record commands.
+- [x] Implement `dns` record commands.
 - [ ] Implement `user` commands.
 - [ ] ... (add more as we discover them in `ref/flarectl`).
 
