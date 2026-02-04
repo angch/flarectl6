@@ -1,0 +1,24 @@
+# Project Agents Guide
+
+## Goal
+The goal of this project is to reimplement the legacy `flarectl` command-line tool using the modern `github.com/cloudflare/cloudflare-go/v6` library. The new tool is tentatively named `flarectl6` (or just `flarectl` in the project context).
+
+## Context
+- **Legacy Tool**: The original `flarectl` is located in `ref/flarectl` (if fetched). It uses an older version of the Cloudflare API and library.
+- **New Library**: The `cloudflare-go/v6` library is located in `ref/cloudflare-go` (if fetched). It supports newer features and has a different API structure compared to what the legacy tool used.
+
+## Workflow
+1. **Analyze**: Look at a command in `ref/flarectl` to understand its flags, arguments, and intended behavior.
+2. **Map**: Find the equivalent functionality in `ref/cloudflare-go`. Note differences in API calls, types, and logic.
+3. **Implement**: Create the equivalent command in the new project using Cobra, calling the v6 library.
+4. **Document**: Update `doc/` as we learn more about the mapping.
+
+## detailed References
+- `ref/flarectl`: Source code for the behavior we want to replicate.
+- `ref/cloudflare-go`: Source code for the library we must use.
+- `README.md`: Setup instructions.
+
+## Coding Standards
+- Use `cobra` for CLI commands.
+- Check errors explicitly.
+- Follow Go conventions.
