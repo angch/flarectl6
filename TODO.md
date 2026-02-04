@@ -11,6 +11,7 @@
 - [x] Implement `dns` record commands.
 - [x] Implement `user` commands.
 - [x] Implement `user-agents` commands.
+- [x] Implement `firewall` access-rules commands.
 - [ ] ... (add more as we discover them in `ref/flarectl`).
 
 ## Documentation
