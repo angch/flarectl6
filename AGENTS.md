@@ -43,9 +43,12 @@ The goal of this project is to reimplement the legacy `flarectl` command-line to
 - **User-Agent Command**:
   - `user-agents list`: Implemented `page` flag. Legacy behavior defaults to page 1 if not specified, so we preserved this (using `List` instead of `ListAutoPaging` when page is involved).
   - `user-agents update`: `Target` must be set to "ua". The v6 library's `UARuleUpdateParamsConfigurationTarget` constants do not include "ua", but the API requires it (and legacy used it). We cast the string "ua" to the target type.
+- **Firewall Command**:
+  - `firewall access-rules`: v6 `AccessRuleService` does not support User-level scope (no `ListUserAccessRules` or equivalent in generated SDK). Commands without `--zone` or `--account` will return an error, whereas legacy would default to user scope.
 - **Metrics**:
   - `cmd/zone.go` implemented (~160 LOC).
   - `cmd/dns.go` implemented (~320 LOC).
   - `cmd/utils.go` added (~70 LOC).
   - `cmd/user_agent.go` implemented (~180 LOC).
+  - `cmd/firewall.go` implemented (~380 LOC).
   - Complexity is low (straight mapping).
