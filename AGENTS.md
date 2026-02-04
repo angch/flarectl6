@@ -22,3 +22,7 @@ The goal of this project is to reimplement the legacy `flarectl` command-line to
 - Use `cobra` for CLI commands.
 - Check errors explicitly.
 - Follow Go conventions.
+
+## Gotchas
+- `ref/` directory contains legacy code without `go.mod`. This can cause `go vet` and `go mod tidy` to process it if run from the root.
+  - **Workaround**: Run `cd ref && go mod init ref` to isolate it, or exclude it from tool runs. `ref/` is gitignored.
