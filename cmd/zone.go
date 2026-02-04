@@ -170,4 +170,3 @@ func zoneDelete(c *cobra.Command) error {
 	_, err = client.Zones.Delete(c.Context(), params)
 	return err
 }
-
